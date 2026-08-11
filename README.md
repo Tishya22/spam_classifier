@@ -1,88 +1,68 @@
-📩 SMS / Email Spam Classifier
+SMS / Email Spam Classifier
 
-A lightweight NLP-based machine learning application that classifies text messages as Spam or Not Spam using TF-IDF vectorization and a Multinomial Naive Bayes classifier.
+A simple end-to-end NLP + Machine Learning project that classifies a message as Spam or Not Spam.
 
-The project covers the complete ML workflow — from data cleaning and exploratory analysis to feature extraction, model comparison, evaluation, serialization, and deployment with Streamlit.
+The project covers the complete workflow: text preprocessing, TF-IDF vectorization, model comparison, evaluation, model serialization, and deployment using Streamlit.
 
-🚀 Live Demo
+Live Demo
 
-Streamlit App: Add your deployed Streamlit URL here
+Streamlit App: Add your deployed app link here
 
-Enter any SMS/email message and the application will instantly classify it as Spam or Not Spam.
+Enter any SMS/email message and click Predict to classify it.
 
-✨ Project Highlights
+<!-- Add a screenshot after deployment:
+![App Preview](screenshots/app-preview.png)
+-->
 
-Built an end-to-end NLP text classification pipeline
+Project Overview
 
-Cleaned and transformed raw SMS text using NLTK
+Spam detection is a binary text-classification problem:
 
-Applied TF-IDF to convert text into numerical features
-
-Compared multiple machine learning classifiers
-
-Evaluated models using Accuracy, Precision, Recall, F1-score, and Confusion Matrix
-
-Selected Multinomial Naive Bayes as the final model based on its strong performance and high precision
-
-Saved the trained model and TF-IDF vectorizer using Pickle
-
-Built an interactive user interface using Streamlit
-
-Structured the application for deployment on Streamlit Community Cloud
-
-🧠 Problem Statement
-
-Spam filtering is a binary text-classification problem:
-
-0 → Ham / Not Spam
+0 → Not Spam / Ham
 
 1 → Spam
 
-The objective is not only to achieve good overall accuracy, but also to maintain high precision, because incorrectly classifying a genuine message as spam can be costly.
+The goal is not only to achieve good accuracy, but also to maintain high precision, because falsely marking a genuine message as spam can be costly.
 
-🔄 Machine Learning Workflow
+ML Pipeline
 
-Raw SMS Dataset
-      ↓
-Data Cleaning
-      ↓
-Exploratory Data Analysis
-      ↓
-Text Preprocessing
-      ↓
+Raw SMS Data
+    ↓
+Text Cleaning
+    ↓
+Tokenization + Stopword Removal + Stemming
+    ↓
 TF-IDF Vectorization
-      ↓
+    ↓
 Train / Test Split
-      ↓
+    ↓
 Model Training & Comparison
-      ↓
-Model Evaluation
-      ↓
+    ↓
+Evaluation
+    ↓
 Best Model Selection
-      ↓
+    ↓
 Pickle Serialization
-      ↓
-Streamlit Web App
-      ↓
-Deployment
+    ↓
+Streamlit Deployment
 
-🧹 Text Preprocessing
+Text Preprocessing
 
-Each incoming message is processed using the same transformation pipeline used during training:
+Each message is processed using the same transformation pipeline used during training:
 
 Convert text to lowercase
 
 Tokenize the message
 
-Remove non-alphanumeric tokens
+Keep only alphanumeric tokens
 
 Remove English stopwords
 
 Remove punctuation
 
-Apply Porter Stemming
+Apply Porter stemming
 
-Join the processed tokens back into a string
+Join tokens back into a cleaned string
 
 Example:
 
@@ -92,23 +72,21 @@ Original:
 Processed:
 "congratul won free prize"
 
-🔢 Feature Extraction — TF-IDF
+Feature Extraction
 
-The cleaned text is converted into numerical features using:
+The cleaned text is converted into numerical features using TF-IDF.
 
 TfidfVectorizer(...)
 
-TF-IDF gives higher importance to words that are useful for distinguishing one message from another while reducing the importance of very common words.
-
-The trained TF-IDF vectorizer is stored in:
+The fitted vectorizer is saved as:
 
 vectorizer.pkl
 
-This ensures that new messages are transformed using the same vocabulary and feature mapping used during model training.
+This ensures that new user messages are transformed using the same vocabulary and feature mapping that were used during training.
 
-🤖 Models Compared
+Models Compared
 
-The project experiments with several machine learning classifiers:
+The following classifiers were evaluated:
 
 Support Vector Classifier
 
@@ -132,90 +110,76 @@ Gradient Boosting
 
 XGBoost
 
-The models were compared using multiple evaluation metrics rather than relying on accuracy alone.
-
-🏆 Final Model — Multinomial Naive Bayes
-
-Multinomial Naive Bayes was selected as the final classifier.
-
-Why it worked well:
-
-Well suited for text classification
-
-Performs efficiently with high-dimensional sparse features
-
-Works naturally with TF-IDF / word-frequency based representations
-
-Produced very strong precision, which is particularly important for spam detection
-
-Remained competitive even when compared with more complex ensemble models
-
-This project also reinforced an important ML principle:
-
-A more complex model is not always a better model.
-
-📊 Evaluation Metrics
-
-The models were evaluated using:
+The models were compared using:
 
 Accuracy
 
-Measures the percentage of all predictions that were correct.
-
 Precision
-
-Measures how reliable the model's Spam predictions are.
-
-Precision = TP / (TP + FP)
-
-High precision is especially important here because a False Positive means a genuine message is incorrectly classified as Spam.
 
 Recall
 
-Measures how much of the actual Spam was successfully detected.
-
-Recall = TP / (TP + FN)
-
-F1-Score
-
-Balances Precision and Recall into one metric.
+F1-score
 
 Confusion Matrix
 
-Used to inspect:
+Final Model
 
-True Positives
+Multinomial Naive Bayes
 
-True Negatives
+Multinomial Naive Bayes was selected as the final classifier because it performed strongly on the TF-IDF text features and maintained very high precision.
 
-False Positives
+Why it fits this problem well:
 
-False Negatives
+Designed for frequency-based text features
 
-🌐 Streamlit Application
+Efficient on high-dimensional sparse data
 
-The deployed application follows this prediction pipeline:
+Fast to train and predict
 
-User enters a message
+Strong baseline for NLP classification
+
+Performs well without unnecessary model complexity
+
+Key takeaway: A more complex model is not always a better model.In this project, simpler Naive Bayes performed better than several ensemble approaches.
+
+Experiments Tried
+
+Several techniques were explored to improve model performance:
+
+TF-IDF max_features
+
+Feature scaling
+
+Additional numerical features
+
+Multiple ML classifiers
+
+Voting Classifier
+
+Stacking
+
+Ensemble models
+
+These experiments helped confirm that Multinomial Naive Bayes was still the most suitable model for this dataset.
+
+Streamlit Prediction Flow
+
+User enters message
         ↓
 transform_text()
         ↓
-TF-IDF transform()
-        ↓
-Loaded trained model
+tfidf.transform()
         ↓
 model.predict()
         ↓
 Spam / Not Spam
 
-The application loads:
+The Streamlit app loads:
 
-vectorizer.pkl → trained TF-IDF vectorizer
-model.pkl      → trained Multinomial Naive Bayes classifier
+vectorizer.pkl  → fitted TF-IDF vectorizer
+model.pkl       → trained classifier
 
-model.predict() then uses the patterns learned during training to classify the new TF-IDF vector.
-
-🛠️ Tech Stack
+Tech Stack
 
 Language
 
@@ -255,7 +219,7 @@ Git
 
 GitHub
 
-📂 Project Structure
+Project Structure
 
 spam_classifier/
 │
@@ -269,41 +233,7 @@ spam_classifier/
 ├── .gitattributes
 └── README.md
 
-File Description
-
-File
-
-Purpose
-
-app.py
-
-Streamlit application
-
-sms_spam_detection.ipynb
-
-Data analysis, preprocessing, model training and evaluation
-
-spam.csv
-
-Dataset used for training
-
-model.pkl
-
-Serialized trained classifier
-
-vectorizer.pkl
-
-Serialized TF-IDF vectorizer
-
-requirements.txt
-
-Python dependencies
-
-.gitignore
-
-Files excluded from version control
-
-⚙️ Run Locally
+Run Locally
 
 1. Clone the repository
 
@@ -314,7 +244,7 @@ cd spam_classifier
 
 python -m venv .venv
 
-3. Activate the environment
+3. Activate it
 
 Windows PowerShell
 
@@ -324,98 +254,60 @@ Windows PowerShell
 
 python -m pip install -r requirements.txt
 
-5. Run the application
+5. Run the app
 
 python -m streamlit run app.py
 
-The application will open in your browser.
+What I Learned
 
-📌 Key Learning Outcomes
+This project helped me practice:
 
-Through this project, I worked with:
+NLP text preprocessing
 
-Text preprocessing and tokenization
-
-Stopword removal
+Tokenization and stopword removal
 
 Stemming
 
-Exploratory Data Analysis for NLP
-
 TF-IDF vectorization
-
-Sparse feature matrices
 
 Binary classification
 
-Model comparison
+Model evaluation
 
-Precision vs Accuracy for imbalanced datasets
-
-Confusion matrices
-
-Ensemble learning
-
-Hyperparameter experimentation
-
-Model serialization using Pickle
-
-Building a Streamlit interface
-
-Virtual environments
-
-Git / GitHub workflow
-
-ML application deployment
-
-🔬 Experiments & Optimization
-
-Several techniques were explored while trying to improve model performance, including:
-
-Limiting TF-IDF vocabulary using max_features
+Precision vs. accuracy for imbalanced datasets
 
 Comparing multiple classifiers
 
-Adding engineered numerical features
+Ensemble learning
 
-Feature scaling
+Pickle model serialization
 
-Ensemble methods
+Building a Streamlit interface
 
-Voting classifiers
+Git and GitHub workflow
 
-Stacking classifiers
+Deploying an ML application
 
-Despite experimenting with more complex approaches, Multinomial Naive Bayes remained the strongest choice for this dataset.
-
-This demonstrates the importance of selecting a model based on measured performance and suitability for the problem, rather than model complexity.
-
-🔮 Future Improvements
-
-Potential improvements include:
+Future Improvements
 
 Tune TF-IDF ngram_range, min_df, and max_df
 
-Hyperparameter tuning for Multinomial Naive Bayes
+Tune MultinomialNB alpha
 
-Experiment with Complement Naive Bayes
+Try Complement Naive Bayes
 
-Try character-level TF-IDF features
+Experiment with character-level TF-IDF
 
-Add spam-specific features such as URL count, digit count and punctuation frequency
+Add engineered features such as URL count, digit count, and punctuation count
 
-Use cross-validation for more robust model evaluation
+Add prediction confidence to the UI
 
-Perform systematic error analysis on False Positives and False Negatives
+Perform deeper error analysis on false positives and false negatives
 
-Experiment with transformer-based models such as BERT / DistilBERT
+Compare with transformer-based text classifiers
 
-Add prediction confidence to the Streamlit UI
-
-Improve the deployed interface with examples and visual feedback
-
-👩‍💻 Author
+Author
 
 Tishya MisraB.Tech Computer Science & Engineering
 
-GitHub: Tishya22git 
+GitHub: Tishya22
