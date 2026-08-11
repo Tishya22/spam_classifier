@@ -8,9 +8,11 @@ The project covers the complete workflow: text preprocessing, TF-IDF vectorizati
 
 ## Live Demo
 
-**Streamlit App:** _Add your deployed app link here_
+**Streamlit App:** _(https://tishya-spam-classifier.streamlit.app/)_
 
 > Enter any SMS/email message and click **Predict** to classify it.
+
+<img width="1033" height="557" alt="image" src="https://github.com/user-attachments/assets/9104998e-044f-42b6-8dd8-c743a6ea4173" />
 
 <!-- Add a screenshot after deployment:
 ![App Preview](screenshots/app-preview.png)
